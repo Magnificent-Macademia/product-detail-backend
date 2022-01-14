@@ -1,0 +1,29 @@
+COPY product
+FROM '/Users/daryakutovaya/VisualStudio/HackReactor/product-detail-backend/data-for-api/product.csv'
+DELIMITER ','
+CSV HEADER;
+
+COPY styles
+FROM '/Users/daryakutovaya/VisualStudio/HackReactor/data-for-api/styles.csv'
+DELIMITER ','
+CSV HEADER;
+
+COPY features
+FROM '/Users/daryakutovaya/VisualStudio/HackReactor/data-for-api/features.csv'
+DELIMITER ','
+CSV HEADER;
+
+COPY photos
+FROM '/Users/daryakutovaya/VisualStudio/HackReactor/data-for-api/photos.csv'
+DELIMITER ','
+CSV HEADER;
+
+COPY related
+FROM '/Users/daryakutovaya/VisualStudio/HackReactor/data-for-api/related.csv'
+DELIMITER ','
+CSV HEADER;
+
+COPY skus
+FROM '/Users/daryakutovaya/VisualStudio/HackReactor/data-for-api/skus.csv'
+DELIMITER ','
+CSV HEADER;

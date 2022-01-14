@@ -15,6 +15,11 @@ const AtelierSchema = new mongoose.Schema({
   product_name: { type: String, trim: true, default: '' },
   product_desc: { type: String, trim: true, default: '' },
   product_category: { type: String, trim: true, default: '' },
+  product_features: [{
+    feature_id: {type: Number, trim: true},
+    feature_main: { type: String, trim: true, default: '' },
+    feature_value: { type: String, trim: true, default: '' },
+  }],
   product_styles: [{
     style_id: {type: Number, trim: true},
     style_name: { type: String, trim: true, default: '' },
