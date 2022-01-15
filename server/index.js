@@ -1,7 +1,7 @@
 const path = require('path');
-//import db from index.js
+const db = require('./db/queries.js')
 const express = require('express');
-
+const helper = require('./helpers.js')
 const app = express();
 
 const PORT = 3000;
@@ -22,28 +22,27 @@ app.use(express.json());
 // query to get product features, required query param product_id: ex.63609
 // query to get product style skus, required query param style_id: ex.12345
 
-// EXAMPLE:
-//to get pictute of item ID 63609 with style 12345:
-//call get styles with where product id is 63609, select all from styles where style_id is the query,
-//query photo table with that style_id to get thumbnail or regular photo
 
 // GET ALL PRODUCTS
 app.get('/products', (req, res) => {
+  // res.json({ info: 'Node.js, Express, and Postgres API' })
   db.getAllProducts((err, data) => {
     if (err) {
       console.log(err);
       res.status(500).send(err);
     } else {
-      // console.log('Server is receiving data:');
-      // console.log(data);
+      console.log('Server is receiving data:');
+      console.log(data);
       res.send(data);
     }
   });
+
 });
 
 //GET ONE PRODUCT
-app.get('/products/get', (req, res) => {
+app.get('/products/product', (req, res) => {
   var idObj = req.query;
+  console.log(idObj);
   db.getOneProduct(idObj, (err, data) => {
     if (err) {
       console.log(err);
@@ -51,7 +50,42 @@ app.get('/products/get', (req, res) => {
     } else {
       // console.log('Server is receiving data for one product:');
       // console.log(data);
-      res.send(data);
+      //invoke formatting function
+      console.log(data);
+      helper.formatOne(data, (err, cb) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send(err);
+        } else {
+          res.send(cb);
+        }
+      });
+    }
+  });
+});
+
+//GET STYLES FOR ONE /products/:product_id/styles
+
+app.get('/products/styles', (req, res) => {
+  var idObj = req.query;
+  console.log(idObj);
+  db.getStyleforOne(idObj, (err, data) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send(err);
+    } else {
+      // console.log('Server is receiving data for one product:');
+      // console.log(data);
+      //invoke formatting function
+      console.log(data);
+      // helper.formatStyles(data, (err, cb) => {
+      //   if (err) {
+      //     console.log(err);
+      //     res.status(500).send(err);
+      //   } else {
+      //     res.send(cb);
+      //   }
+      // });
     }
   });
 });
@@ -62,6 +96,6 @@ app.get('/products/get', (req, res) => {
 // })
 
 
-app.listen(port, () => {
+app.listen(PORT, () => {
   console.log('Listening at http://localhost:' + PORT);
 });

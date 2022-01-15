@@ -1,5 +1,5 @@
 COPY product
-FROM '/Users/daryakutovaya/VisualStudio/HackReactor/product-detail-backend/data-for-api/product.csv'
+FROM '/Users/daryakutovaya/VisualStudio/HackReactor/data-for-api/product.csv'
 DELIMITER ','
 CSV HEADER;
 

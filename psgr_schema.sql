@@ -1,4 +1,6 @@
-CREATE DATABASE postgres
+-- Database: products_api
+-- DROP DATABASE IF EXISTS products_api;
+CREATE DATABASE products_api
     WITH
     OWNER = daryakutovaya
     ENCODING = 'UTF8'
@@ -7,25 +9,23 @@ CREATE DATABASE postgres
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1;
 
-COMMENT ON DATABASE postgres
-    IS 'default administrative connection database';
-
 -- Table: public.product
 
 -- DROP TABLE IF EXISTS public.product;
 
 CREATE TABLE IF NOT EXISTS public.product
 (
-    id bigint NOT NULL DEFAULT nextval('"Products_id_seq"'::regclass),
-    name character varying(100) COLLATE pg_catalog."default",
-    slogan character varying(500) COLLATE pg_catalog."default",
-    description character varying(1000) COLLATE pg_catalog."default",
-    category character varying(100) COLLATE pg_catalog."default",
+    id bigint NOT NULL DEFAULT nextval('product_id_seq'::regclass),
+    name character varying COLLATE pg_catalog."default",
+    slogan character varying COLLATE pg_catalog."default",
+    description character varying COLLATE pg_catalog."default",
+    category character varying COLLATE pg_catalog."default",
     default_price integer,
-    CONSTRAINT "Products_pkey" PRIMARY KEY (id)
+    CONSTRAINT product_pkey PRIMARY KEY (id)
 )
 
 TABLESPACE pg_default;
+
 
 ALTER TABLE IF EXISTS public.product
 
@@ -35,21 +35,20 @@ ALTER TABLE IF EXISTS public.product
 
 CREATE TABLE IF NOT EXISTS public.styles
 (
-    id integer NOT NULL,
-    "productId" integer,
-    name character varying(100) COLLATE pg_catalog."default",
-    sale_price character varying(100) COLLATE pg_catalog."default",
+    id bigint NOT NULL DEFAULT nextval('styles_id_seq'::regclass),
+    "productId" bigint NOT NULL DEFAULT nextval('"styles_productId_seq"'::regclass),
+    name character varying COLLATE pg_catalog."default",
+    sale_price character varying COLLATE pg_catalog."default",
     original_price integer,
     default_style integer,
-    CONSTRAINT "Styles_pkey" PRIMARY KEY (id),
-    CONSTRAINT "Styles" FOREIGN KEY ("productId")
+    CONSTRAINT styles_pkey PRIMARY KEY (id),
+    CONSTRAINT "productId" FOREIGN KEY ("productId")
         REFERENCES public.product (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
 
 TABLESPACE pg_default;
-
 ALTER TABLE IF EXISTS public.styles
 
 -- Table: public.features
@@ -58,15 +57,16 @@ ALTER TABLE IF EXISTS public.styles
 
 CREATE TABLE IF NOT EXISTS public.features
 (
-    id integer NOT NULL,
-    product_id integer,
-    feature character(100) COLLATE pg_catalog."default",
-    value character(100) COLLATE pg_catalog."default",
+    id bigint NOT NULL DEFAULT nextval('features_id_seq'::regclass),
+    "productId" bigint NOT NULL DEFAULT nextval('"features_productId_seq"'::regclass),
+    feature character varying COLLATE pg_catalog."default",
+    value character varying COLLATE pg_catalog."default",
     CONSTRAINT features_pkey PRIMARY KEY (id),
-    CONSTRAINT features FOREIGN KEY (product_id)
+    CONSTRAINT "productId" FOREIGN KEY ("productId")
         REFERENCES public.product (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
+        NOT VALID
 )
 
 TABLESPACE pg_default;
@@ -79,8 +79,8 @@ ALTER TABLE IF EXISTS public.features
 
 CREATE TABLE IF NOT EXISTS public.photos
 (
-    id integer NOT NULL,
-    "styleId" integer,
+    id bigint NOT NULL DEFAULT nextval('photos_id_seq'::regclass),
+    "styleId" bigint NOT NULL DEFAULT nextval('"photos_styleId_seq"'::regclass),
     url character varying COLLATE pg_catalog."default",
     thumbnail_url character varying COLLATE pg_catalog."default",
     CONSTRAINT photos_pkey PRIMARY KEY (id),
@@ -93,6 +93,7 @@ CREATE TABLE IF NOT EXISTS public.photos
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.photos
+    --OWNER to daryakutovaya;
 
 -- Table: public.skus
 
@@ -114,6 +115,26 @@ CREATE TABLE IF NOT EXISTS public.skus
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.skus
+
+-- Table: public.related
+
+-- DROP TABLE IF EXISTS public.related;
+
+CREATE TABLE IF NOT EXISTS public.related
+(
+    id integer NOT NULL,
+    current_product_id bigint NOT NULL DEFAULT nextval('related_current_product_id_seq'::regclass),
+    related_product_id bigint NOT NULL DEFAULT nextval('related_related_product_id_seq'::regclass),
+    CONSTRAINT related_pkey PRIMARY KEY (id),
+    CONSTRAINT current_product_id FOREIGN KEY (current_product_id)
+        REFERENCES public.product (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.related
 
 --
 -- COPY product
