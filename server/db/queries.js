@@ -25,7 +25,7 @@ const pool = new Pool({
 
 
 const getAllProducts = (callback) => {
-  pool.query('SELECT * FROM product LIMIT 100', (err, results) => {
+  pool.query('SELECT * FROM product LIMIT 5', (err, results) => {
     if (err) {
       console.log(`${err} : unable to retrieve products from the database`);
     } else {
@@ -35,7 +35,7 @@ const getAllProducts = (callback) => {
   })
 };
 
-const getOneProduct = ( idObj, callback) => {
+const getOneProduct = (idObj, callback) => {
   //pool query to inner join two tables product, features
   var joinString = `SELECT * FROM product INNER JOIN features ON product.id = features.product_id WHERE product_id = ${idObj.product_id};`
   pool.query(joinString, (err, results) => {
@@ -49,28 +49,39 @@ const getOneProduct = ( idObj, callback) => {
 };
 
 const getStyleforOne = (idObj, callback) => {
-//select all from styles inner join photos on style.id = photos.styleId inner join skus on style.id = skus.styleId where product_id = ${idObj.product_id}
-/*
-SELECT * from styles join photos on styles.id = photos.style_id join skus on styles.id = skus.style_id where product_id = 3;
-*/
-var id = idObj.product_id;
-console.log(id);
-var joinString = `SELECT * from styles join photos on styles.id = photos.style_id join skus on styles.id = skus.style_id where product_id = ${id};`
-pool.query(joinString, (err, results) => {
-  if (err) {
-    console.log(`${err} : unable to retrieve products from the database`);
-  } else {
-    //response.status(200).json(results.rows)
-    //console.log(results.rows);
-    callback(null, results.rows);
-  }
-})
+  var id = idObj.product_id;
+  console.log(id);
+  var joinString = `SELECT * FROM styles
+inner join photos on styles.style_id = photos.style_id
+inner join skus on styles.style_id = skus.style_id
+where product_id= ${id};`
+  pool.query(joinString, (err, results) => {
+    if (err) {
+      console.log(`${err} : unable to retrieve products from the database`);
+    } else {
+      //response.status(200).json(results.rows)
+      //console.log(results.rows);
+      callback(null, results.rows);
+    }
+  });
+};
 
-// select t1.name, t2.image_id, t3.path
-// from table1 t1
-// inner join table2 t2 on t1.person_id = t2.person_id
-// inner join table3 t3 on t2.image_id=t3.image_id
+const getRelated = (idObj, callback) => {
+  var id = idObj.product_id;
+  console.log(id);
+  var joinString = `SELECT * FROM related
+where current_product_id= ${id};`
+  pool.query(joinString, (err, results) => {
+    if (err) {
+      console.log(`${err} : unable to retrieve products from the database`);
+    } else {
+      //response.status(200).json(results.rows)
+      console.log(results.rows);
+      callback(null, results.rows);
+    }
+  });
 }
+
 
 // pool.query('SELECT NOW()', (err, res) => {
 //   console.log(err, res)
@@ -112,4 +123,4 @@ pool.query(joinString, (err, results) => {
 //   client.end()
 // })
 
-module.exports = {getAllProducts, getOneProduct, getStyleforOne}
+module.exports = { getAllProducts, getOneProduct, getStyleforOne, getRelated }

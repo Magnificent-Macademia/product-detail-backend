@@ -1,3 +1,5 @@
+const dotenv = require('dotenv');
+dotenv.config();
 const path = require('path');
 const db = require('./db/queries.js')
 const express = require('express');
@@ -75,22 +77,43 @@ app.get('/products/styles', (req, res) => {
       res.status(500).send(err);
     } else {
       // console.log('Server is receiving data for one product:');
-      // console.log(data);
+      console.log(data);
       //invoke formatting function
       console.log(data);
-      // helper.formatStyles(data, (err, cb) => {
-      //   if (err) {
-      //     console.log(err);
-      //     res.status(500).send(err);
-      //   } else {
-      //     res.send(cb);
-      //   }
-      // });
+      helper.formatStyles(data, (err, cb) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send(err);
+        } else {
+          res.send(cb);
+        }
+      });
     }
   });
 });
 
-
+app.get('/products/related', (req, res) => {
+  var idObj = req.query
+  console.log(idObj)
+  db.getRelated(idObj, (err, data) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send(err);
+    } else {
+      // console.log('Server is receiving data for one product:');
+      console.log(data);
+      //invoke formatting function
+      helper.formatRelated(data, (err, cb) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send(err);
+        } else {
+          res.send(cb);
+        }
+      });
+    }
+  });
+});
 // app.get('/', function (req, res) {
 //   res.send('GET request to the homepage')
 // })
