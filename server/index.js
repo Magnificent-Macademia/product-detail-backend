@@ -25,8 +25,8 @@ app.get('/products', (req, res) => {
       res.status(500).send(err);
     } else {
       console.log('Server is receiving data:');
-      console.log(data);
-      res.send(data);
+      //console.log(data);
+      res.status(201).send(data);
     }
   });
 
@@ -35,24 +35,17 @@ app.get('/products', (req, res) => {
 //GET ONE PRODUCT
 app.get('/products/product', (req, res) => {
   var idObj = req.query;
-  console.log(idObj);
+  //console.log(idObj);
   db.getOneProduct(idObj, (err, data) => {
     if (err) {
       console.log(err);
       res.status(500).send(err);
     } else {
       // console.log('Server is receiving data for one product:');
-      // console.log(data);
       //invoke formatting function
-      console.log(data);
-      helper.formatOne(data, (err, cb) => {
-        if (err) {
-          console.log(err);
-          res.status(500).send(err);
-        } else {
-          res.send(cb);
-        }
-      });
+      console.log(data)
+      var formattedProduct = helper.formatOne(data);
+      res.status(201).send(formattedProduct);
     }
   });
 });
@@ -61,24 +54,16 @@ app.get('/products/product', (req, res) => {
 
 app.get('/products/styles', (req, res) => {
   var idObj = req.query;
-  console.log(idObj);
+  //console.log(idObj);
   db.getStyleforOne(idObj, (err, data) => {
     if (err) {
       console.log(err);
       res.status(500).send(err);
     } else {
-      // console.log('Server is receiving data for one product:');
-      console.log(data);
+      // console.log('Server is receiving styles data for one product:');
+      //console.log(data);
       //invoke formatting function
-      console.log(data);
-      helper.formatStyles(data, (err, cb) => {
-        if (err) {
-          console.log(err);
-          res.status(500).send(err);
-        } else {
-          res.send(cb);
-        }
-      });
+      res.send(helper.formatStyles(data));
     }
   });
 });
@@ -92,26 +77,18 @@ app.get('/products/related', (req, res) => {
       console.log(err);
       res.status(500).send(err);
     } else {
-      // console.log('Server is receiving data for one product:');
-      console.log(data);
+      // console.log('Server is receiving realted data for one product:');
+      //console.log(data);
       //invoke formatting function
-      helper.formatRelated(data, (err, cb) => {
-        if (err) {
-          console.log(err);
-          res.status(500).send(err);
-        } else {
-          res.send(cb);
-        }
-      });
+      res.status(201).send(helper.formatRelated(data));
     }
   });
 });
 
-// app.get('/', function (req, res) {
-//   res.send('GET request to the homepage')
-// })
 
 
 app.listen(PORT, () => {
   console.log('Listening at http://localhost:' + PORT);
 });
+
+//module.exports = app;

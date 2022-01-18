@@ -38,6 +38,7 @@ const getAllProducts = (callback) => {
 const getOneProduct = (idObj, callback) => {
   //pool query to inner join two tables product, features
   var joinString = `SELECT * FROM product INNER JOIN features ON product.id = features.product_id WHERE product_id = ${idObj.product_id};`
+  //console.log(idObj);
   pool.query(joinString, (err, results) => {
     if (err) {
       console.log(`${err} : unable to retrieve products from the database`);
@@ -50,17 +51,17 @@ const getOneProduct = (idObj, callback) => {
 
 const getStyleforOne = (idObj, callback) => {
   var id = idObj.product_id;
-  console.log(id);
+  console.log(idObj);
   var joinString = `SELECT * FROM styles
 inner join photos on styles.style_id = photos.style_id
 inner join skus on styles.style_id = skus.style_id
 where product_id= ${id};`
   pool.query(joinString, (err, results) => {
-    if (err) {
-      console.log(`${err} : unable to retrieve products from the database`);
+    if (err || results.rows.length === 0) {
+      console.log(`${err} : unable to retrieve products from the database, check product_id`);
     } else {
       //response.status(200).json(results.rows)
-      //console.log(results.rows);
+      console.log(results.rows);
       callback(null, results.rows);
     }
   });
@@ -76,7 +77,7 @@ where current_product_id= ${id};`
       console.log(`${err} : unable to retrieve products from the database`);
     } else {
       //response.status(200).json(results.rows)
-      console.log(results.rows);
+      //console.log(results.rows);
       callback(null, results.rows);
     }
   });

@@ -1,9 +1,9 @@
-const formatOne = (arrayOfObjects, callback) => {
+const formatOne = (arrayOfObjects) => {
   var features = [];
   var copyObj = Object.assign({}, arrayOfObjects[0]);
   for (var i = 0; i < arrayOfObjects.length; i++) {
     var innerObj = {};
-    if (arrayOfObjects[i]["feature"] === null || arrayOfObjects[i]["value"]=== null) {
+    if (arrayOfObjects[i]["feature"] === null || arrayOfObjects[i]["value"] === null) {
       continue;
     } else {
       innerObj.feature = arrayOfObjects[i]["feature"];
@@ -16,11 +16,11 @@ const formatOne = (arrayOfObjects, callback) => {
   delete copyObj.feature;
   delete copyObj.value;
   delete copyObj.product_id;
-  return copyObj; //for testing purposes
-   //callback(copyObj);
+  console.log(copyObj);
+  return copyObj;
 };
 
-const formatStyles =  (arrayOfObjects, callback) => {
+const formatStyles =  (arrayOfObjects) => {
   var formatted = {};
   var photos = [];
   var skusObj ={};
@@ -38,16 +38,16 @@ const formatStyles =  (arrayOfObjects, callback) => {
       inner.default = Boolean(current['default_style']);
       var skusObj = {}
       inner.photos = [];
+      inner.photosObj = {}
       inner.skus = skusObj;
        styleObj[current['style_id']] = inner;
     }
     //add photos
-  var currentPhotosArray = styleObj[current['style_id']]['photos'];
-    if (currentPhotosArray[i] === undefined) {
-      var stylePhotos = {}
-      stylePhotos.url = current['url']
-      stylePhotos.thumbnail_url = current['thumbnail_url'];
-      currentPhotosArray.push(stylePhotos);
+    const currentPhotoId = current['photo_id'];
+    var updatedPhotos = styleObj[current['style_id']]['photosObj'][`${currentPhotoId}`] = {url: '', thumbnail_url: ''}
+    if (updatedPhotos.url === '' || updatedPhotos.thumbnail_url === '') {
+      updatedPhotos.url = current['url'];
+      updatedPhotos.thumbnail_url = current['thumbnail_url'];
     }
    //add skus to skus objects
   var currentSkus = current['skus_id'];
@@ -59,20 +59,27 @@ const formatStyles =  (arrayOfObjects, callback) => {
   //pull values from populated objects
   var valuesOnly = Object.values(styleObj);
     formatted.results = valuesOnly;
-  console.log(formatted);
+
    }
-    return formatted; //for tests
-   //callback(formatted);
+   //format photos 
+   var formattedResults = formatted['results'];
+    for (var i = 0; i< formattedResults.length; i++) {
+      var uniquePhotosOnly = Object.values(formattedResults[i]['photosObj']);
+       formattedResults[i]['photos'] = uniquePhotosOnly;
+        delete formattedResults[i]['photosObj'];
+    }
+
+  return formatted;
+  // callback(formatted);
   }
 
 
-  const formatRelated = (arrayOfObjects, callback) => {
-      var relatedArray = [];
-      for (var i = 0; i < arrayOfObjects.length; i++) {
-          relatedArray.push(arrayOfObjects[i]['related_product_id']);
-      }
-      return relatedArray; // for tests
-      //callback(relatedArray);
-      }
+const formatRelated = (arrayOfObjects) => {
+  var relatedArray = [];
+  for (var i = 0; i < arrayOfObjects.length; i++) {
+    relatedArray.push(arrayOfObjects[i]['related_product_id']);
+  }
+  return relatedArray;
+}
 
 module.exports = { formatOne, formatStyles, formatRelated }

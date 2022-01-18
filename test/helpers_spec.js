@@ -4,7 +4,7 @@ const should = require('chai').should();
 const helpers = require('../server/helpers.js')
 const test_data = require('../testing_data/dummy_data.js')
 
-// BEFORE RUNNING npm test UNCOMMENT RETURN IN helpers.js
+// BEFORE RUNNING test command UNCOMMENT RETURN IN helpers.js
 
 //example test
 // expect(true).to.be.true;
