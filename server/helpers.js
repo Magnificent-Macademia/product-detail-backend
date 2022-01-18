@@ -1,4 +1,3 @@
-//formatting function goes here
 const formatOne = (arrayOfObjects, callback) => {
   var features = [];
   var copyObj = Object.assign({}, arrayOfObjects[0]);
@@ -17,13 +16,11 @@ const formatOne = (arrayOfObjects, callback) => {
   delete copyObj.feature;
   delete copyObj.value;
   delete copyObj.product_id;
-   callback(copyObj);
-}
+  return copyObj; //for testing purposes
+   //callback(copyObj);
+};
 
-
-const formatStyles = (arrayOfObjects, callback) => {
-  //i: arrayOfObjects
-  //o: one formatted object
+const formatStyles =  (arrayOfObjects, callback) => {
   var formatted = {};
   var photos = [];
   var skusObj ={};
@@ -34,14 +31,14 @@ const formatStyles = (arrayOfObjects, callback) => {
     const current = arrayOfObjects[i];
     if (styleObj[current['style_id']] === undefined) {
       var inner = {};
-      var skusObj = {}
-      inner.photos = [];
-      inner.skus = skusObj;
       inner.style_id = current['style_id'];
       inner.name = current['name'];
       inner.original_price = current['original_price'];
       inner.sale_price = current['sale_price'];
       inner.default = Boolean(current['default_style']);
+      var skusObj = {}
+      inner.photos = [];
+      inner.skus = skusObj;
        styleObj[current['style_id']] = inner;
     }
     //add photos
@@ -61,10 +58,11 @@ const formatStyles = (arrayOfObjects, callback) => {
     }
   //pull values from populated objects
   var valuesOnly = Object.values(styleObj);
-  formatted.results = valuesOnly;
+    formatted.results = valuesOnly;
   console.log(formatted);
    }
-  callback(formatted);
+    return formatted; //for tests
+   // await callback(formatted);
   }
 
 
@@ -73,7 +71,8 @@ const formatStyles = (arrayOfObjects, callback) => {
       for (var i = 0; i < arrayOfObjects.length; i++) {
           relatedArray.push(arrayOfObjects[i]['related_product_id']);
       }
-      callback(relatedArray);
+      return relatedArray; // for tests
+      //callback(relatedArray);
       }
 
 module.exports = { formatOne, formatStyles, formatRelated }
