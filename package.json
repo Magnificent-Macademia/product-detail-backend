@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npx nodemon server/index.js",
-    "test": "mocha"
+    "test": "mocha test/helpers_spec.js"
   },
   "repository": {
     "type": "git",
@@ -20,13 +20,15 @@
   "homepage": "https://github.com/Magnificent-Macademia/product-detail-backend#readme",
   "dependencies": {
     "chai": "^4.3.4",
+    "chai-http": "^4.3.0",
     "dotenv": "^12.0.3",
     "express": "^4.17.2",
+    "nodemon": "^2.0.15",
     "pg": "^8.7.1",
     "postgres": "^1.0.2"
   },
   "devDependencies": {
-    "mocha": "^9.1.4",
-    "chai": "*"
+    "chai": "*",
+    "mocha": "^9.1.4"
   }
 }

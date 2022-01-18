@@ -62,7 +62,7 @@ const formatStyles =  (arrayOfObjects, callback) => {
   console.log(formatted);
    }
     return formatted; //for tests
-   // await callback(formatted);
+   //callback(formatted);
   }
 
 
