@@ -16,7 +16,7 @@ const formatOne = (arrayOfObjects) => {
   delete copyObj.feature;
   delete copyObj.value;
   delete copyObj.product_id;
-  console.log(copyObj);
+  //console.log(copyObj);
   return copyObj;
 };
 
@@ -61,7 +61,7 @@ const formatStyles =  (arrayOfObjects) => {
     formatted.results = valuesOnly;
 
    }
-   //format photos 
+   //format photos
    var formattedResults = formatted['results'];
     for (var i = 0; i< formattedResults.length; i++) {
       var uniquePhotosOnly = Object.values(formattedResults[i]['photosObj']);

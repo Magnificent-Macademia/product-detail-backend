@@ -18,7 +18,6 @@ app.use(express.json());
 
 // GET ALL PRODUCTS
 app.get('/products', (req, res) => {
-  // res.json({ info: 'Node.js, Express, and Postgres API' })
   db.getAllProducts((err, data) => {
     if (err) {
       console.log(err);
@@ -26,7 +25,7 @@ app.get('/products', (req, res) => {
     } else {
       console.log('Server is receiving data:');
       //console.log(data);
-      res.status(201).send(data);
+      res.status(200).send(data);
     }
   });
 
@@ -35,17 +34,14 @@ app.get('/products', (req, res) => {
 //GET ONE PRODUCT
 app.get('/products/product', (req, res) => {
   var idObj = req.query;
-  //console.log(idObj);
   db.getOneProduct(idObj, (err, data) => {
     if (err) {
       console.log(err);
       res.status(500).send(err);
     } else {
-      // console.log('Server is receiving data for one product:');
-      //invoke formatting function
       console.log(data)
       var formattedProduct = helper.formatOne(data);
-      res.status(201).send(formattedProduct);
+      res.status(200).send(formattedProduct);
     }
   });
 });
@@ -60,10 +56,7 @@ app.get('/products/styles', (req, res) => {
       console.log(err);
       res.status(500).send(err);
     } else {
-      // console.log('Server is receiving styles data for one product:');
-      //console.log(data);
-      //invoke formatting function
-      res.send(helper.formatStyles(data));
+      res.status(200).send(helper.formatStyles(data));
     }
   });
 });
@@ -77,10 +70,7 @@ app.get('/products/related', (req, res) => {
       console.log(err);
       res.status(500).send(err);
     } else {
-      // console.log('Server is receiving realted data for one product:');
-      //console.log(data);
-      //invoke formatting function
-      res.status(201).send(helper.formatRelated(data));
+      res.status(200).send(helper.formatRelated(data));
     }
   });
 });
