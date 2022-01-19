@@ -3,10 +3,9 @@ const should = require('chai').should();
 const helpers = require('../server/helpers.js')
 const test_data = require('../testing_data/dummy_data.js')
 
-// BEFORE RUNNING test command UNCOMMENT RETURN IN helpers.js
 
 //example test
-it('it should all example tests', () => {
+it('it should pass all example tests', () => {
 expect(true).to.be.true;
 expect({a: 1}).to.not.have.property('b');
 expect({a: {b: ['x', 'y']}}).to.have.nested.property('a.b[1]');

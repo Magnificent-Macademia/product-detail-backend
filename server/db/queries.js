@@ -43,7 +43,7 @@ where product_id= ${id};`
     if (err || results.rows.length === 0) {
       console.log(`${err} : unable to retrieve products from the database, check product_id`);
     } else {
-      console.log(results.rows);
+      //console.log(results.rows);
       callback(null, results.rows);
     }
   });
@@ -51,12 +51,12 @@ where product_id= ${id};`
 
 const getRelated = (idObj, callback) => {
   var id = idObj.product_id;
-  console.log(id);
+  //console.log(id);
   var joinString = `SELECT * FROM related
 where current_product_id= ${id};`
   pool.query(joinString, (err, results) => {
-    if (err) {
-      console.log(`${err} : unable to retrieve products from the database`);
+    if (err || results.rows.length === 0) {
+      console.log(`${err} : unable to retrieve products from the database, check product_id`);
     } else {
       //console.log(results.rows);
       callback(null, results.rows);

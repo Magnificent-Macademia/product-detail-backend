@@ -34,6 +34,7 @@ app.get('/products', (req, res) => {
 //GET ONE PRODUCT
 app.get('/products/product', (req, res) => {
   var idObj = req.query;
+
   db.getOneProduct(idObj, (err, data) => {
     if (err) {
       console.log(err);
@@ -41,6 +42,7 @@ app.get('/products/product', (req, res) => {
     } else {
       console.log(data)
       var formattedProduct = helper.formatOne(data);
+      console.log(res.query)
       res.status(200).send(formattedProduct);
     }
   });
@@ -56,7 +58,8 @@ app.get('/products/styles', (req, res) => {
       console.log(err);
       res.status(500).send(err);
     } else {
-      res.status(200).send(helper.formatStyles(data));
+      var formattedStyle = helper.formatStyles(data)
+      res.status(200).send(formattedStyle);
     }
   });
 });
@@ -70,7 +73,8 @@ app.get('/products/related', (req, res) => {
       console.log(err);
       res.status(500).send(err);
     } else {
-      res.status(200).send(helper.formatRelated(data));
+      var formattedRelated = helper.formatRelated(data)
+      res.status(200).send(formattedRelated);
     }
   });
 });
@@ -81,4 +85,3 @@ app.listen(PORT, () => {
   console.log('Listening at http://localhost:' + PORT);
 });
 
-//module.exports = app;
