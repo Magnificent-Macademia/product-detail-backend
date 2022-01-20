@@ -22,13 +22,8 @@ export default function () {
   var id = getRandomId(1000011);
 
   http.get(`http://localhost:3000/products`);
-  // var product = http.get(`http://localhost:3000/products`);
-  // check(product, {
-  //   'verify correct product_id was provided': (r) =>
-  //     r.query.product_id === id
-  // });
     sleep(1);
-
+    
   http.get(`http://localhost:3000/products/product/${id}`);
   // check(res, {
   //   'is status 200': (r) => r.status === 200

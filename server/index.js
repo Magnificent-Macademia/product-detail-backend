@@ -34,13 +34,13 @@ app.get('/products', (req, res) => {
 //GET ONE PRODUCT
 app.get('/products/product', (req, res) => {
   var idObj = req.query;
-
   db.getOneProduct(idObj, (err, data) => {
     if (err) {
       console.log(err);
       res.status(500).send(err);
     } else {
-      console.log(data)
+      //console.log(data)
+      console.log('Server is receiving data:');
       var formattedProduct = helper.formatOne(data);
       console.log(res.query)
       res.status(200).send(formattedProduct);

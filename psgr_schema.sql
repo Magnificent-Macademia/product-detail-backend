@@ -13,7 +13,7 @@ CREATE DATABASE products_api
 
 -- DROP TABLE IF EXISTS public.product;
 
-CREATE TABLE IF NOT EXISTS public.product
+CREATE TABLE IF NOT EXISTS product
 (
     id bigint NOT NULL DEFAULT nextval('product_id_seq'::regclass),
     name character varying COLLATE pg_catalog."default",
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS public.product
 TABLESPACE pg_default;
 
 
-ALTER TABLE IF EXISTS public.product
+ALTER TABLE IF EXISTS product
 
 -- Table: public.styles
 

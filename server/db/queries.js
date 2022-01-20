@@ -1,11 +1,38 @@
-const Pool = require('pg').Pool
+const { Pool, Client } = require('pg')
+
 const pool = new Pool({
-  user: 'daryakutovaya',
+  user: 'daryak',
+  host: 'ec2-18-208-149-20.compute-1.amazonaws.com',
+  database: 'products_api',
+  password: 'spelling5',
+  port: 5432,
+});
+
+const client = new Client({
+  user: 'daryak',
+  host: 'ec2-18-208-149-20.compute-1.amazonaws.com',
+  database: 'products_api',
+  password: 'spelling5',
+  port: 5432,
+})
+client.connect();
+
+// client.query('SELECT NOW()', (err, res) => {
+//   console.log(err, res)
+//   client.end()
+// })
+/*
+local DB:
+ user: 'daryakutovaya',
   host: 'localhost',
   database: 'products_api',
   password: 'password',
-  port: 5432,
-})
+*/
+
+//ec2-18-208-149-20.compute-1.amazonaws.com
+//user: postgres
+//database: 'products_api',
+//password: spelling9
 
 
 
@@ -14,6 +41,7 @@ const getAllProducts = (callback) => {
     if (err) {
       console.log(`${err} : unable to retrieve products from the database`);
     } else {
+      console.log('receiving data from remote db:');
       //response.status(200).json(results.rows)
       callback(null, results.rows);
     }
@@ -27,6 +55,7 @@ const getOneProduct = (idObj, callback) => {
     if (err) {
       console.log(`${err} : unable to retrieve products from the database`);
     } else {
+      console.log('receiving data from remote db:');
       callback(null, results.rows);
     }
   })
@@ -44,6 +73,7 @@ where product_id= ${id};`
       console.log(`${err} : unable to retrieve products from the database, check product_id`);
     } else {
       //console.log(results.rows);
+      console.log('receiving data from remote db:');
       callback(null, results.rows);
     }
   });
@@ -59,6 +89,7 @@ where current_product_id= ${id};`
       console.log(`${err} : unable to retrieve products from the database, check product_id`);
     } else {
       //console.log(results.rows);
+      console.log('receiving data from remote db:');
       callback(null, results.rows);
     }
   });
