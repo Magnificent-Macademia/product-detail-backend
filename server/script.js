@@ -13,7 +13,7 @@ const getRandomId = (max) => {
 
 //100 250 500 over 1 minute
 export const options = {
-    vus: 50,
+    vus: 500,
     duration: '60s',
   };
 
@@ -23,7 +23,7 @@ export default function () {
 
   http.get(`http://localhost:3000/products`);
     sleep(1);
-    
+
   http.get(`http://localhost:3000/products/product/${id}`);
   // check(res, {
   //   'is status 200': (r) => r.status === 200

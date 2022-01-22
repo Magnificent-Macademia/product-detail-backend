@@ -8,6 +8,7 @@ const pool = new Pool({
   port: 5432,
 });
 
+//Client
 const client = new Client({
   user: 'daryak',
   host: 'ec2-18-208-149-20.compute-1.amazonaws.com',
@@ -63,7 +64,7 @@ const getOneProduct = (idObj, callback) => {
 
 const getStyleforOne = (idObj, callback) => {
   var id = idObj.product_id;
-  console.log(idObj);
+  //console.log(idObj);
   var joinString = `SELECT * FROM styles
 inner join photos on styles.style_id = photos.style_id
 inner join skus on styles.style_id = skus.style_id
@@ -72,7 +73,7 @@ where product_id= ${id};`
     if (err || results.rows.length === 0) {
       console.log(`${err} : unable to retrieve products from the database, check product_id`);
     } else {
-      //console.log(results.rows);
+     // console.log(results.rows);
       console.log('receiving data from remote db:');
       callback(null, results.rows);
     }

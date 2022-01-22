@@ -3,15 +3,14 @@ dotenv.config();
 const path = require('path');
 const db = require('./db/queries.js')
 const express = require('express');
-const helper = require('./helpers.js')
+const helper = require('./helpers.js');
+require('newrelic');
 const app = express();
 
-const PORT = 3000;
+const PORT = 3000; //port for ngix ec2
 
-// const staticPath = path.join(__dirname, '..', '/client/dist/');
-
-// Middleware
-// app.use(express.static(staticPath));
+const staticPath = path.join(__dirname, 'public');
+app.use(express.static(staticPath));
 app.use(express.json());
 
 // PRODUCTS API
@@ -42,7 +41,7 @@ app.get('/products/product', (req, res) => {
       //console.log(data)
       console.log('Server is receiving data:');
       var formattedProduct = helper.formatOne(data);
-      console.log(res.query)
+      //console.log(res.query)
       res.status(200).send(formattedProduct);
     }
   });
