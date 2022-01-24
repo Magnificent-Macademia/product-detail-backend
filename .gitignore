@@ -1,2 +1,3 @@
 node_modules
 product_api.pem
+server/loginInfo.js

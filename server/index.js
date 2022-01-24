@@ -7,7 +7,7 @@ const helper = require('./helpers.js');
 require('newrelic');
 const app = express();
 
-const PORT = 3000; //port for ngix ec2
+const PORT = 3000;
 
 const staticPath = path.join(__dirname, 'public');
 app.use(express.static(staticPath));
@@ -23,14 +23,13 @@ app.get('/products', (req, res) => {
       res.status(500).send(err);
     } else {
       console.log('Server is receiving data:');
-      //console.log(data);
       res.status(200).send(data);
     }
   });
 
 });
 
-//GET ONE PRODUCT
+//GET ONE PRODUCT /products/:product_id/product
 app.get('/products/product', (req, res) => {
   var idObj = req.query;
   db.getOneProduct(idObj, (err, data) => {
@@ -38,20 +37,17 @@ app.get('/products/product', (req, res) => {
       console.log(err);
       res.status(500).send(err);
     } else {
-      //console.log(data)
       console.log('Server is receiving data:');
       var formattedProduct = helper.formatOne(data);
-      //console.log(res.query)
       res.status(200).send(formattedProduct);
     }
   });
 });
 
-//GET STYLES FOR ONE /products/:product_id/styles
 
+//GET STYLES FOR ONE /products/:product_id/styles
 app.get('/products/styles', (req, res) => {
   var idObj = req.query;
-  //console.log(idObj);
   db.getStyleforOne(idObj, (err, data) => {
     if (err) {
       console.log(err);
@@ -63,7 +59,7 @@ app.get('/products/styles', (req, res) => {
   });
 });
 
-//GET RELATED PRODUCTS FOR ONE
+//GET RELATED PRODUCTS FOR ONE /products/:product_id/related
 app.get('/products/related', (req, res) => {
   var idObj = req.query
   console.log(idObj)
