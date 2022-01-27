@@ -26,12 +26,12 @@ app.get('/products', (req, res) => {
       res.status(200).send(data);
     }
   });
-
 });
 
 //GET ONE PRODUCT /products/:product_id/product
-app.get('/products/product', (req, res) => {
-  var idObj = req.query;
+app.get('/products/:product_id/product', (req, res) => {
+  var idObj = req.params;
+  //console.log(req.params);
   db.getOneProduct(idObj, (err, data) => {
     if (err) {
       console.log(err);
@@ -46,8 +46,8 @@ app.get('/products/product', (req, res) => {
 
 
 //GET STYLES FOR ONE /products/:product_id/styles
-app.get('/products/styles', (req, res) => {
-  var idObj = req.query;
+app.get('/products/:product_id/styles', (req, res) => {
+  var idObj = req.params;
   db.getStyleforOne(idObj, (err, data) => {
     if (err) {
       console.log(err);
@@ -61,8 +61,8 @@ app.get('/products/styles', (req, res) => {
 
 //GET RELATED PRODUCTS FOR ONE /products/:product_id/related
 app.get('/products/related', (req, res) => {
-  var idObj = req.query
-  console.log(idObj)
+  var idObj = req.params;
+  // console.log(idObj)
   db.getRelated(idObj, (err, data) => {
     if (err) {
       console.log(err);

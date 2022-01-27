@@ -1,22 +1,33 @@
-const { Pool, Client } = require('pg')
+const { Pool, Client} = require('pg')
 const userLogin = require('../loginInfo.js');
+
+// to use remote db
+// const pool = new Pool({
+//   user: userLogin.userLoginRemote.user,
+//   host: userLogin.userLoginRemote.host,
+//   database: userLogin.userLoginRemote.database,
+//   password: userLogin.userLoginRemote.password,
+//   port: 5432,
+// });
+
+// to use local db
 const pool = new Pool({
-  user: userLogin.user,
-  host: userLogin.host,
-  database: userLogin.database,
-  password: userLogin.password,
+  user: userLogin.userLoginLocal.user,
+  host: userLogin.userLoginLocal.host,
+  database: userLogin.userLoginLocal.database,
+  password: userLogin.userLoginLocal.password,
   port: 5432,
 });
 
-const client = new Client({
-  user: userLogin.user,
-  host: userLogin.host,
-  database: userLogin.database,
-  password: userLogin.password,
-  port: 5432,
-});
+// const client = new Client({
+//   user: userLogin.userLoginLocal.user,
+//   host: userLogin.userLoginLocal.host,
+//   database: userLogin.userLoginLocal.database,
+//   password: userLogin.userLoginLocal.password,
+//   port: 5432,
+// });
 
-client.connect();
+// client.connect();
 
 const getAllProducts = (callback) => {
   pool.query('SELECT * FROM product LIMIT 5', (err, results) => {
@@ -41,6 +52,7 @@ const getOneProduct = (idObj, callback) => {
   })
 };
 
+//aggregate queeries for formatting
 const getStyleforOne = (idObj, callback) => {
   var id = idObj.product_id;
   var joinString = `SELECT * FROM styles

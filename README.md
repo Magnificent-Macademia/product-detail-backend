@@ -14,6 +14,9 @@ Stress tested locally with k6 and once deployed with Loader io and New Relic.
 This repo was developed by Darya Kutovaya who was also an original member of HR Courageous Cottonwood Front-End Capstone.
 
 **Technical Walkthrough and Challenges:**
+-One of the fist challenges was the formatting functions to the query results that were taking too long, query time was long and failure rate high.
+-First step to optimization was to refactor the query and also add intentional indexing for the most common query.
+- When deployed ec2 database, I realized that I picked a standard storage option which was not enough for the large data files and I had to redo entire database deployment of database with more than 20gb
 
 - Setting up configuration of overlapping technologies
 - Choosing the right database for needs of the project

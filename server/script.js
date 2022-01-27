@@ -13,29 +13,21 @@ const getRandomId = (max) => {
 
 //100 250 500 over 1 minute
 export const options = {
-    vus: 500,
+    vus: 250,
     duration: '60s',
   };
 
 export default function () {
-
   var id = getRandomId(1000011);
-
   http.get(`http://localhost:3000/products`);
     sleep(1);
-
-  http.get(`http://localhost:3000/products/product/${id}`);
-  // check(res, {
-  //   'is status 200': (r) => r.status === 200
-  // });
+  http.get(`http://localhost:3000/products/${id}/product`);
   sleep(1);
-
-  http.get(`http://localhost:3000/products/styles/${id}`);
+  http.get(`http://localhost:3000/products/${id}/styles`);
   sleep(1);
-
-  http.get(`http://localhost:3000/products/related/${id}`);
+  http.get(`http://localhost:3000/products/${id}/related`);
   sleep(1);
-}
+};
 
 
 //run in k6 terminal:
